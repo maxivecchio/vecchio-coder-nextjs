@@ -53,7 +53,7 @@ export default function App() {
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
             <button onClick={() => {router.push('/')}}  className="text-white hover:text-secondary hover:font-semibold" href="#">
-              home
+              Home
             </button>
           </NavbarItem>
           <NavbarItem>
