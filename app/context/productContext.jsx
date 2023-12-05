@@ -29,6 +29,7 @@ const ProductProvider = ({ children }) => {
   }, []);
 
   const getProductBySlug = async (slug) => {
+    setSelectedProduct(null)
     try {
       const response = await axios.get(
         `http://localhost:3000/api/products/${slug}`
