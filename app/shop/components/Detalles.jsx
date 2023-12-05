@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 
+import { useCart } from "@/app/context/cartContext";
+
 const Detalles = ({ producto }) => {
+const {addToCart} = useCart()
+
   const availabilityText = producto.availability ? "In Stock" : "Out of Stock";
   const availabilityClass = producto.availability
     ? "text-green-600"
@@ -27,6 +31,10 @@ const Detalles = ({ producto }) => {
       setQuantity(newQuantity);
     }
   };
+
+  const handleClick = (product, quantity) => {
+    addToCart(product, quantity)
+  }
 
   return (
     <div>
@@ -71,9 +79,6 @@ const Detalles = ({ producto }) => {
       </div>
       <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
         <p className="text-xl text-primary font-semibold">${producto.price}</p>
-        <p className="text-base text-gray-400 line-through">
-          ${producto.discountPrice}
-        </p>
       </div>
 
       <p className="mt-4 text-gray-600">{producto.description}</p>
@@ -161,7 +166,7 @@ const Detalles = ({ producto }) => {
       </div>
 
       <div className="mt-6 flex gap-3 pb-5 pt-5">
-        <button className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
+        <button onClick={() => {handleClick(producto, 1)}} className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
           <i className="fa-solid fa-bag-shopping"></i> Add to cart
         </button>
       </div>

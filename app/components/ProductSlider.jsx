@@ -2,7 +2,6 @@
 
 import ProductCard from "@/app/components/ProductCard";
 
-import products from "@/app/data/productos";  
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -10,7 +9,12 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
+import { useProducts } from "@/app/context/productContext";
+
 export default function ProductSlider() {
+
+  const { products } = useProducts();
+
   return (
       <Swiper
         spaceBetween={19}

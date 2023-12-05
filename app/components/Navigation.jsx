@@ -17,9 +17,11 @@ import {useRouter} from 'next/navigation'
 
 import Link from 'next/link'
 
+import { useCart } from "@/app/context/cartContext";
+
 export default function App() {
   const router = useRouter()
-  
+  const { cart } = useCart();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isCartOpen, setCartOpen] = React.useState(false);
 
@@ -68,7 +70,7 @@ export default function App() {
               onClick={openCart}
               className="text-center text-white hover:text-primary transition relative"
             >
-              <div className="hover:text-secondary hover:font-semibold">Cart</div>
+              <div className="hover:text-secondary hover:font-semibold">Cart ({cart?.itemsTotal})</div>
             </button>
           </NavbarItem>
           <NavbarItem>

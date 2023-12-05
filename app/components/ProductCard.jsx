@@ -4,7 +4,7 @@ import Link from 'next/link'
 const ProductCard = ({product}) => {
   return (
     <Link
-      href={`/shop/product/${product.id}`}
+      href={`/shop/product/${product.slug}`}
       key={product.id}
       className="bg-white shadow-[0_35px_60px_15px_rgba(0,0,0,0.1)] rounded overflow-hidden group hover:border-4 hover:border-subtle"
     >
@@ -19,9 +19,6 @@ const ProductCard = ({product}) => {
         </div>
         <div className="flex items-baseline mb-1 space-x-2">
           <p className="text-xl text-primary font-semibold">${product.price}</p>
-          <p className="text-sm text-gray-400 line-through">
-            ${product.discountPrice}
-          </p>
         </div>
         <div className="flex items-center">
           <div className="flex gap-1 text-sm text-yellow-400">
@@ -35,7 +32,7 @@ const ProductCard = ({product}) => {
         </div>
       </div>
       <button className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">
-        Add to cart
+        View Details
       </button>
     </Link>
   );

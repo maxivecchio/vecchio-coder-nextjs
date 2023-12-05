@@ -6,7 +6,6 @@ function CreateProduct() {
     const initialProduct = {
         "name": "",
         "price": "",
-        "discountPrice": "",
         "rating": "",
         "reviews": "",
         "imageSrc": "",

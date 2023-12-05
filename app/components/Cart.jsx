@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 
-const Cart = ({ isOpen, closeCart }) => {
+import { useCart } from "@/app/context/cartContext";
+
+const CartComponent = ({ isOpen, closeCart }) => {
   if (!isOpen) {
     return null;
   }
+
+  const { cart } = useCart();
 
   const [quantity, setQuantity] = useState(1);
 
@@ -29,65 +33,46 @@ const Cart = ({ isOpen, closeCart }) => {
             <div className="flex items-center mb-10">
               <h2 className="text-3xl font-bold  ">Shopping Cart</h2>
             </div>
-            <div className="block pb-6 mb-6 -mx-4 border-b border-gray-200 md:flex">
-              <div className="w-full px-4 mb-6 md:w-1/3 md:mb-0">
-                <div className="flex w-full h-96 md:h-32 md:w-32">
-                  <img
-                    src="/images/products/product1.jpg"
-                    alt=""
-                    className="object-cover w-full h-full rounded-md"
-                  />
+            {cart.items.map((item, index) => (
+              <div
+                key={index}
+                className="block pb-6 mb-6 -mx-4 border-b border-gray-200 md:flex"
+              >
+                <div className="w-full px-4 mb-6 md:w-1/3 md:mb-0">
+                  <div className="flex w-full h-96 md:h-32 md:w-32">
+                    <img
+                      src={item.product.imageSrc}
+                      alt={item.product.name}
+                      className="object-cover w-full h-full rounded-md"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="w-full px-4 md:2/3">
-                <div className="flex justify-between">
-                  <div className="">
-                    <h2 className="mb-2 text-xl font-bold ">Elegant Suit</h2>
-                    <p className="mb-4 text-sm font-medium text-gray-600  ">
-                      {" "}
-                      Quantity: 1
-                    </p>
-                    <div className="flex mt-10 justify-center items-center space-x-10">
-                      <div className="">
-                        <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-                          <div
-                            className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
-                            onClick={() => handleQuantityChange(quantity - 1)}
-                          >
-                            -
-                          </div>
-                          <input
-                            type="number"
-                            className="h-8 w-8 text-base text-center border-r border-l border-gray-300"
-                            value={quantity}
-                            onChange={(e) =>
-                              handleQuantityChange(parseInt(e.target.value, 10))
-                            }
-                          />
-                          <div
-                            className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
-                            onClick={() => handleQuantityChange(quantity + 1)}
-                          >
-                            +
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <button className="px-4 py-2 font-medium text-center text-primary border border-primary rounded-md hover:bg-primary hover:text-gray-100">
-                          Remove
-                        </button>
+                <div className="w-full px-4 md:2/3">
+                  <div className="flex justify-between">
+                    <div className="">
+                      <h2 className="mb-2 text-xl font-bold">
+                        {item.product.name}
+                      </h2>
+                      <p className="mb-4 text-sm font-medium text-gray-600">
+                        Quantity: {item.quantity}
+                      </p>
+                      <div className="flex mt-10 justify-center items-center space-x-10">
+                        {/* Aquí va tu lógica de botones de incremento/decremento y eliminación */}
                       </div>
                     </div>
-                  </div>
-                  <div>
-                    <p className="text-lg font-bold text-primary ">$150</p>
+                    <div>
+                      <p className="text-lg font-bold text-primary">
+                        ${item.product.price}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
+
             <div className="flex justify-between text-base ">
               <p>Subtotal</p>
-              <p>$180</p>
+              <p>${cart?.total}</p>
             </div>
             <p className="mt-4 text-sm text-gray-500 ">
               Shipping calculated at checkout period.
@@ -119,4 +104,4 @@ const Cart = ({ isOpen, closeCart }) => {
   );
 };
 
-export default Cart;
+export default CartComponent;
