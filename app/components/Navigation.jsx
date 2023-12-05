@@ -60,7 +60,7 @@ export default function App() {
           </NavbarItem>
           <NavbarItem>
             <button  onClick={() => {router.push('/dashboard')}} className="text-white hover:text-secondary hover:font-semibold" href="#">
-              Admin
+              Admin (TODO)
             </button>
           </NavbarItem>
         </NavbarContent>
