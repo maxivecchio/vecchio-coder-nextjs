@@ -33,42 +33,44 @@ const CartComponent = ({ isOpen, closeCart }) => {
             <div className="flex items-center mb-10">
               <h2 className="text-3xl font-bold  ">Shopping Cart</h2>
             </div>
-            {cart.items.map((item, index) => (
-              <div
-                key={index}
-                className="block pb-6 mb-6 -mx-4 border-b border-gray-200 md:flex"
-              >
-                <div className="w-full px-4 mb-6 md:w-1/3 md:mb-0">
-                  <div className="flex w-full h-96 md:h-32 md:w-32">
-                    <img
-                      src={item.product.imageSrc}
-                      alt={item.product.name}
-                      className="object-cover w-full h-full rounded-md"
-                    />
+            <div className="max-h-[calc(60vh)] overflow-y-scroll overflow-x-hidden px-4">
+              {cart.items.map((item, index) => (
+                <div
+                  key={index}
+                  className="block pb-6 mb-6 -mx-4 border-b border-gray-200 md:flex"
+                >
+                  <div className="w-full px-4 mb-6 md:w-1/3 md:mb-0">
+                    <div className="flex w-full h-96 md:h-32 md:w-32">
+                      <img
+                        src={item.product.imageSrc}
+                        alt={item.product.name}
+                        className="object-cover w-full h-full rounded-md"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="w-full px-4 md:2/3">
-                  <div className="flex justify-between">
-                    <div className="">
-                      <h2 className="mb-2 text-xl font-bold">
-                        {item.product.name}
-                      </h2>
-                      <p className="mb-4 text-sm font-medium text-gray-600">
-                        Quantity: {item.quantity}
-                      </p>
-                      <div className="flex mt-10 justify-center items-center space-x-10">
-                        {/* Aquí va tu lógica de botones de incremento/decremento y eliminación */}
+                  <div className="w-full px-4 md:2/3">
+                    <div className="flex justify-between">
+                      <div className="">
+                        <h2 className="mb-2 text-xl font-bold">
+                          {item.product.name}
+                        </h2>
+                        <p className="mb-4 text-sm font-medium text-gray-600">
+                          Quantity: {item.quantity}
+                        </p>
+                        <div className="flex mt-10 justify-center items-center space-x-10">
+                          {/* Aquí va tu lógica de botones de incremento/decremento y eliminación */}
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold text-primary">
+                          ${item.product.price}
+                        </p>
                       </div>
                     </div>
-                    <div>
-                      <p className="text-lg font-bold text-primary">
-                        ${item.product.price}
-                      </p>
-                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
             <div className="flex justify-between text-base ">
               <p>Subtotal</p>
