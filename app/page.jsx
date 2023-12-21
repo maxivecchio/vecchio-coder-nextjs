@@ -1,25 +1,22 @@
-import BreadCrumb from "@/app/components/BreadCrum";
-import ProductSlider from "@/app/components/ProductSlider";
-import SlideBar from "@/app/shop/components/SlideBar";
-import Select from "@/app/shop/components/Select";
-import ProductList from "@/app/shop/components/ProductsList";
+import React from "react";
+import Slider from "@/app/components/home/Slider";
+/* import ProductList from "@/app/components/home/ProductList"; */
+import Info from "@/app/components/home/Info";
+import CategoryList from "@/app/components/home/CategoryList";
+import NewsLetter from "@/app/components/home/NewsLetter";
 
-import Link from "next/link";
-
-export default function Home() {
+const Home = () => {
   return (
-    <>
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-12">
-        <h2 className="text-2xl font-bold text-center my-2">
-          Productos Destacados
-        </h2>
-        <ProductSlider />
+    <section className="">
+      <div>
+        <Slider />
+        <Info />
+        <CategoryList />
+        {/* <ProductList /> */}
+        <NewsLetter />
       </div>
-      <div className="p-4 flex items-center justify-center">
-          <Link href={'/shop'}>
-             <button className="py-2 px-4 bg-foreground text-background">Ver todos los productos</button>
-          </Link>
-          </div>
-    </>
+    </section>
   );
-}
+};
+
+export default Home;

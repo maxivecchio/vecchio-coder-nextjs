@@ -40,7 +40,7 @@ export default function App() {
 
   return (
     <>
-      <Navbar className="bg-black text-white" onMenuOpenChange={setIsMenuOpen}>
+      <Navbar position="sticky" className="fixed top-0 bg-black/40" onMenuOpenChange={setIsMenuOpen}>
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -54,12 +54,12 @@ export default function App() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
-            <button onClick={() => {router.push('/')}}  className="text-white hover:text-secondary hover:font-semibold" href="#">
+            <button onClick={() => {router.push('/')}}  className="text-white font-bold hover:text-secondary" href="#">
               Home
             </button>
           </NavbarItem>
           <NavbarItem>
-            <button  onClick={() => {router.push('/dashboard')}} className="text-white hover:text-secondary hover:font-semibold" href="#">
+            <button  onClick={() => {router.push('/dashboard')}} className="text-white font-bold hover:text-secondary" href="#">
               Admin (TODO)
             </button>
           </NavbarItem>
@@ -68,18 +68,18 @@ export default function App() {
           <NavbarItem className="hidden lg:flex">
             <button
               onClick={openCart}
-              className="text-center text-white hover:text-primary transition relative"
+              className="text-center text-black transition relative"
             >
-              <div className="hover:text-secondary hover:font-semibold">Cart ({cart?.itemsTotal})</div>
+              <div className="hover:text-secondary">Cart ({cart?.itemsTotal})</div>
             </button>
           </NavbarItem>
           <NavbarItem>
-            <Button as={Link} color="secondary" href="#" variant="flat">
+            <Button className="font-bold" as={Link} color="secondary" href="#" variant="shadow">
               Sign Up
             </Button>
           </NavbarItem>
         </NavbarContent>
-        <NavbarMenu>
+        <NavbarMenu className=" text-white">
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link

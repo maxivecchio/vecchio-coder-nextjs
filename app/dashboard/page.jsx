@@ -1,5 +1,4 @@
 "use client";
-import products from "../data/productos";
 
 import React from "react";
 import {
@@ -18,6 +17,7 @@ import { AiFillEdit, AiFillDelete, AiFillEye } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useProducts } from "@/app/context/productContext";
 
 const statusColorMap = {
   active: "success",
@@ -26,6 +26,8 @@ const statusColorMap = {
 };
 
 export default function Dashboard() {
+  const { products } = useProducts();
+
   const router = useRouter();
   const renderCell = React.useCallback((product, columnKey) => {
     const cellValue = product[columnKey];
@@ -92,7 +94,7 @@ export default function Dashboard() {
   }, []);
 
   const columns = [
-    { name: "", uid: "imageSrc" },
+    /* { name: "", uid: "imageSrc" }, */
     { name: "NAME", uid: "name" },
     { name: "SKU", uid: "sku" },
     { name: "PRICE", uid: "price" },
@@ -105,7 +107,10 @@ export default function Dashboard() {
     <>
       <div className="max-w-6xl mx-auto">
         <div className="mt-12 mb-4 ml-2">
-          <Link href={'/dashboard/p/new'} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded cursor-pointer">
+          <Link
+            href={"/dashboard/p/new"}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+          >
             Nuevo Producto
           </Link>
         </div>
@@ -122,7 +127,7 @@ export default function Dashboard() {
           </TableHeader>
           <TableBody items={products}>
             {(item) => (
-              <TableRow key={item.id}>
+              <TableRow key={item.sku}>
                 {(columnKey) => (
                   <TableCell>{renderCell(item, columnKey)}</TableCell>
                 )}
