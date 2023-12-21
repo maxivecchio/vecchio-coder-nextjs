@@ -18,6 +18,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useProducts } from "@/app/context/productContext";
+import NewProduct from "@/app/dashboard/components/NewProduct";
 
 const statusColorMap = {
   active: "success",
@@ -107,12 +108,7 @@ export default function Dashboard() {
     <>
       <div className="max-w-6xl mx-auto">
         <div className="mt-12 mb-4 ml-2">
-          <Link
-            href={"/dashboard/p/new"}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded cursor-pointer"
-          >
-            Nuevo Producto
-          </Link>
+          <NewProduct />
         </div>
         <Table aria-label="Example table with custom cells">
           <TableHeader columns={columns}>

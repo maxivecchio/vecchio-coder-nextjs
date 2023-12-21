@@ -17,7 +17,7 @@ const Page = ({ params }) => {
   }, [slug]);
 
   return (
-    <div className="px-64 pt-10">
+    <div className="px-64 pt-20">
       {product && (
         <>
         <BreadCrumb path={"/shop"}>Shop / Product / {product.name}</BreadCrumb>

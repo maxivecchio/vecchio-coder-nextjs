@@ -14,6 +14,7 @@
     "firebase": "^10.7.0",
     "framer-motion": "^10.16.4",
     "next": "14.0.2",
+    "notistack": "^3.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
@@ -22,6 +23,7 @@
     "swiper": "^11.0.4"
   },
   "devDependencies": {
+    "@types/react": "18.2.45",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.2",

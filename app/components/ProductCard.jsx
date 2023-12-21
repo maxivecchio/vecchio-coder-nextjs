@@ -9,7 +9,7 @@ const ProductCard = ({product}) => {
       className="bg-white shadow-[0_35px_60px_15px_rgba(0,0,0,0.1)] rounded overflow-hidden group hover:border-4 hover:border-subtle"
     >
       <div className="relative">
-        <img src={product.imageSrc} alt={product.name} className="w-full" />
+        <img src={product.thumbnail} alt={product.name} className="w-full" />
       </div>
       <div className="pt-4 pb-3 px-4">
         <div>

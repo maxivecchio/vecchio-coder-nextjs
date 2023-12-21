@@ -57,13 +57,9 @@ const {addToCart} = useCart()
             <AiFillStar />
           </span>
         </div>
-        <div className="text-xs text-gray-500 ml-3">({producto.reviews})</div>
       </div>
       <div className="space-y-2">
-        <p className="text-gray-800 font-semibold space-x-2">
-          <span>Availability: </span>
-          <span className={availabilityClass}>{availabilityText}</span>
-        </p>
+
         <p className="space-x-2">
           <span className="text-gray-800 font-semibold">Brand: </span>
           <span className="text-gray-600">{producto.brand}</span>
@@ -115,31 +111,6 @@ const {addToCart} = useCart()
         </div>
       </div>
 
-      <div className="pt-4">
-        <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-          Color
-        </h3>
-        <div className="flex items-center gap-2">
-          {producto.colors.map((color) => (
-            <div
-              key={color}
-              className={`color-selector ${
-                selectedColor === color ? "selected" : ""
-              }`}
-              onClick={() => handleColorChange(color)}
-            >
-              <input type="radio" name="color" id={color} className="hidden" />
-              <label
-                htmlFor={color}
-                className={`border border-gray-200 rounded-sm h-6 w-6 cursor-pointer shadow-sm block ${
-                  selectedColor === color ? "border-subtle" : ""
-                }`}
-                style={{ backgroundColor: color }}
-              ></label>
-            </div>
-          ))}
-        </div>
-      </div>
 
       <div className="mt-4">
         <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
