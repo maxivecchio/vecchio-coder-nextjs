@@ -1,39 +1,43 @@
 import React from "react";
-import Link from 'next/link'
+import Link from 'next/link';
+import { IoCartOutline } from "react-icons/io5";
 
-const ProductCard = ({product}) => {
+import {useCart} from '@/app/context/cartContext'
+
+const ProductCard = ({ product }) => {
+
+  const {addToCart} = useCart()
+
+  const onClick = (e, product) => {
+    e.preventDefault()
+    addToCart(product, 1)
+  }
   return (
-    <Link
-      href={`/shop/product/${product.slug}`}
-      key={product.id}
-      className="bg-white shadow-[0_35px_60px_15px_rgba(0,0,0,0.1)] rounded overflow-hidden group hover:border-4 hover:border-subtle"
-    >
-      <div className="relative">
-        <img src={product.thumbnail} alt={product.name} className="w-full" />
-      </div>
-      <div className="pt-4 pb-3 px-4">
-        <div>
-          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
+    <Link href={`/shop/product/${product.slug}`}>
+      <div className="w-full mx-auto max-w-xs overflow-hidden bg-background rounded-lg shadow-xl">
+        <img
+          className="object-cover object-center w-full h-72"
+          src={
+            product.thumbnail ||
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-nOAglpmejsvQmil3kr19lwURHplsMvhv5A&usqp=CAU"
+          }
+          alt={product.name}
+        />
+
+        <div className="px-6 py-4">
+          <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
             {product.name}
-          </h4>
-        </div>
-        <div className="flex items-baseline mb-1 space-x-2">
-          <p className="text-xl text-primary font-semibold">${product.price}</p>
-        </div>
-        <div className="flex items-center">
-          <div className="flex gap-1 text-sm text-yellow-400">
-            {Array.from({ length: product.rating }, (_, index) => (
-              <span key={index}>
-                <i className="fa-solid fa-star"></i>
-              </span>
-            ))}
-          </div>
-          <div className="text-xs text-gray-500 ml-3">({product.reviews})</div>
+          </h1>
+          
+          <p className="text-tiny">{product.category}</p>
+
+          <p className="mt-3 text-primary-500 font-bold">${product.price} USD.</p>
+
+          <button onClick={(e) => {onClick(e, product)}} className="mt-3 px-4 py-2 w-full text-white bg-primary-700 hover:bg-primary-800 font-medium rounded-lg text-sm text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            <IoCartOutline className="text-xl mx-auto font-bold"/>
+          </button>
         </div>
       </div>
-      <button className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">
-        View Details
-      </button>
     </Link>
   );
 };

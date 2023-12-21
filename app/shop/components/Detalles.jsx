@@ -39,31 +39,7 @@ const {addToCart} = useCart()
   return (
     <div>
       <h2 className="text-3xl font-medium uppercase mb-2">{producto.name}</h2>
-      <div className="flex items-center mb-4">
-        <div className="flex gap-1 text-sm text-yellow-400">
-          <span>
-            <AiFillStar />
-          </span>
-          <span>
-            <AiFillStar />
-          </span>
-          <span>
-            <AiFillStar />
-          </span>
-          <span>
-            <AiFillStar />
-          </span>
-          <span>
-            <AiFillStar />
-          </span>
-        </div>
-      </div>
       <div className="space-y-2">
-
-        <p className="space-x-2">
-          <span className="text-gray-800 font-semibold">Brand: </span>
-          <span className="text-gray-600">{producto.brand}</span>
-        </p>
         <p className="space-x-2">
           <span className="text-gray-800 font-semibold">Category: </span>
           <span className="text-gray-600">{producto.category}</span>

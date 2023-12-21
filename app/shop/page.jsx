@@ -16,14 +16,13 @@ import StoreAccordion from "@/app/components/store/StoreAccordion";
 export default function Shop() {
   return (
     <>
-      <div className="mt-[72px]">
+      <div className="mt-16">
         <div className="flex">
           <div className="hidden md:flex">
             <Slidebar />
           </div>
 
-          <div className="mx-auto">
-            <div className="md:ml-80 m-10">
+          <div className="w-full p-4">
               <div className="mb-3 mr-3 md:mr-0 flex justify-end md:hidden">
                 <Popover placement="bottom" showArrow offset={10}>
                   <PopoverTrigger>
@@ -38,7 +37,6 @@ export default function Shop() {
               </div>
               <ProductList />
             </div>
-          </div>
         </div>
       </div>
     </>

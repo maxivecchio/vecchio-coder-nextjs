@@ -15,7 +15,7 @@ const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/products", {
+      .get("api/products", {
         cache: "no-store",
         next: {
           revalidate: 3600,

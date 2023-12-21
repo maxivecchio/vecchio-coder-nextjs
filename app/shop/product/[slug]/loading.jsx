@@ -1,4 +1,5 @@
 export default function Loading() {
-    // TODO: Improve page to next submition
-    return ("Loading Product")
+    return (<div className="pt-16 h-screen w-full grid place-items-center text-black">
+      Loading
+    </div>)
   }

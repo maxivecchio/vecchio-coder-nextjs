@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import BreadCrumb from "@/app/components/BreadCrum";
-import Img from "../../components/Img";
-import Detalles from "../../components/Detalles";
-import Description from "../../components/Description";
+import Img from "@/app/shop/components/Img";
+import Detalles from "@/app/shop/components/Detalles";
+import Description from "@/app/shop/components/Description";
 
 import { useProducts } from "@/app/context/productContext";
 
@@ -26,9 +26,9 @@ const Page = ({ params }) => {
             <Detalles producto={product} />
           </div>
 
-          <div className="pt-10">
+          {/* <div className="pt-10">
             <Description producto={product} />
-          </div>
+          </div> */}
         </>
       )}
     </div>

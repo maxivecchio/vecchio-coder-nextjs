@@ -54,19 +54,19 @@ export default function App() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
-            <Link href="/" className="text-white font-bold hover:text-secondary">
+            <button onClick={() => {router.push('/')}}  className="text-white font-bold hover:text-secondary" href="#">
               Home
-            </Link>
+            </button>
           </NavbarItem>
           <NavbarItem>
-            <Link href="/shop" className="text-white font-bold hover:text-secondary">
+            <button onClick={() => {router.push('/shop')}}  className="text-white font-bold hover:text-secondary" href="#">
               Shop
-            </Link>
+            </button>
           </NavbarItem>
           <NavbarItem>
-            <Link href="/dashboard" className="text-white font-bold hover:text-secondary">
+            <button  onClick={() => {router.push('/dashboard')}} className="text-white font-bold hover:text-secondary" href="#">
               Admin (TODO)
-            </Link>
+            </button>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
