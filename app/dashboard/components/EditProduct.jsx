@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Modal,
@@ -13,13 +13,29 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import { enqueueSnackbar } from 'notistack';
-import { IoAdd } from "react-icons/io5";
 import { TiDeleteOutline } from "react-icons/ti";
 
-export default function NewProduct({uploadProduct}) {
+export default function EditProduct({children, productSlug }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const formRef = useRef(null);
+  const [productData, setProductData] = useState({});
   const [sizeVariants, setSizeVariants] = useState(['']);
+
+  useEffect(() => {
+    const loadProductData = async () => {
+      try {
+        const response = await axios.get(`/api/products/${productSlug}`);
+        setProductData(response.data);
+        setSizeVariants(response.data.sizes || []);
+      } catch (error) {
+        console.error('Error loading product:', error);
+      }
+    };
+
+    if (productSlug) {
+      loadProductData();
+    }
+  }, [productSlug]);
 
   const fields = [
     { label: 'Name', type: 'text', name: 'name', colSpan: 'col-span-2'},
@@ -27,8 +43,6 @@ export default function NewProduct({uploadProduct}) {
     { label: 'Price', type: 'number', name: 'price', colSpan: 'col-span-1' },
     { label: 'Stock', type: 'number', name: 'stock', colSpan: 'col-span-1' },
   ];
-
-  const defaultSizes = ['XXS','XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
   const addSizeVariant = () => {
     setSizeVariants([...sizeVariants, '']);
@@ -46,23 +60,32 @@ export default function NewProduct({uploadProduct}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {};
+    const formData = { ...productData };
     fields.forEach(field => {
       formData[field.name] = formRef.current[field.name].value;
     });
     formData['sizes'] = sizeVariants;
-    uploadProduct(formData).then(() => {
+
+    try {
+      await axios.put(
+        `/api/products/${productSlug}`,
+        formData
+      );
+      enqueueSnackbar({
+        message: 'Product Updated Successfully',
+        variant: 'success',
+      });
       onOpenChange(false);
-      formRef.current.reset();
-      setSizeVariants(['']); 
-    })
+    } catch (error) {
+      console.error('Error updating product:', error.message);
+    }
   };
 
   return (
     <>
-      <Button onPress={onOpen} variant="flat">
-        Upload Product
-      </Button>
+      <div onClick={onOpen}>
+        {children}
+      </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {() => (
@@ -91,6 +114,7 @@ export default function NewProduct({uploadProduct}) {
                       label={field.label}
                       variant="bordered"
                       name={field.name}
+                      defaultValue={productData[field.name]}
                       className={field.colSpan}
                       />
                     )

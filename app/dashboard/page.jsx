@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useProducts } from "@/app/context/productContext";
 import NewProduct from "@/app/dashboard/components/NewProduct";
+import DeleteProduct from "@/app/dashboard/components/DeleteProduct";
+import EditProduct from "@/app/dashboard/components/EditProduct";
 
 const statusColorMap = {
   active: "success",
@@ -27,36 +29,46 @@ const statusColorMap = {
 };
 
 export default function Dashboard() {
-  const { products } = useProducts();
-
+  const { products, uploadProduct, deleteProduct } = useProducts();
+  
   const router = useRouter();
   const renderCell = React.useCallback((product, columnKey) => {
-    const cellValue = product[columnKey];
+    let cellValue = product[columnKey];
+    if (columnKey === 'category') {
+      cellValue = product[columnKey].name;
+    }
 
     switch (columnKey) {
-      case "imageSrc":
+      case "thumbnail":
         return (
           <Image
             width={64}
             height={96}
             alt="asdasd"
-            className="!w-16"
-            src={product.imageSrc}
+            src={product.thumbnail}
           />
         );
-      case "role":
+      case "name":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {product.team}
+            <p className="text-bold text-tiny lowercase text-default-400">
+              {product.slug}
             </p>
           </div>
         );
-      case "status":
+      case "category":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize">{cellValue}</p>
+            <p className="text-bold text-tiny lowercase text-default-400">
+              {product.category.slug}
+            </p>
+          </div>
+        );
+      case "slug":
         return (
           <Chip
-            className="capitalize"
             color={statusColorMap[product.status]}
             size="sm"
             variant="flat"
@@ -64,29 +76,32 @@ export default function Dashboard() {
             {cellValue}
           </Chip>
         );
+        case "sizes":
+          return (
+            product.sizes.map(size => (
+              <Chip
+                key={size}
+                variant="flat"
+                className="mr-2"
+              >
+                {size}
+              </Chip>
+            ))
+          );
+        
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            {/* <Tooltip content="Details">
+            <EditProduct productSlug={product.slug}>
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                  <AiFillEye />
-              </span>
-            </Tooltip> */}
-            <Tooltip content="Edit product">
-              <span
-                onClick={() => {
-                  router.push(`/dashboard/p/${product.id}`);
-                }}
-                className="text-lg text-default-400 cursor-pointer active:opacity-50"
-              >
                 <AiFillEdit />
               </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete product">
+            </EditProduct>
+            <DeleteProduct product={product} deleteProduct={deleteProduct}>
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
                 <AiFillDelete />
               </span>
-            </Tooltip>
+            </DeleteProduct>
           </div>
         );
       default:
@@ -95,12 +110,11 @@ export default function Dashboard() {
   }, []);
 
   const columns = [
-    /* { name: "", uid: "imageSrc" }, */
+    { name: "", uid: "thumbnail" },
     { name: "NAME", uid: "name" },
-    { name: "SKU", uid: "sku" },
-    { name: "PRICE", uid: "price" },
-    { name: "BRAND", uid: "brand" },
     { name: "CATEGORY", uid: "category" },
+    { name: "SIZES", uid: "sizes" },
+    { name: "PRICE", uid: "price" },
     { name: "ACTIONS", uid: "actions" },
   ];
 
@@ -108,7 +122,7 @@ export default function Dashboard() {
     <>
       <div className="max-w-6xl mx-auto">
         <div className="mt-12 mb-4 ml-2">
-          <NewProduct />
+          <NewProduct uploadProduct={uploadProduct} />
         </div>
         <Table aria-label="Example table with custom cells">
           <TableHeader columns={columns}>
@@ -123,7 +137,7 @@ export default function Dashboard() {
           </TableHeader>
           <TableBody items={products}>
             {(item) => (
-              <TableRow key={item.sku}>
+              <TableRow key={item.id}>
                 {(columnKey) => (
                   <TableCell>{renderCell(item, columnKey)}</TableCell>
                 )}

@@ -13,14 +13,17 @@ import {
 } from "@nextui-org/react";
 import { AcmeLogo } from "./AcmeLogo.jsx";
 
-import {useRouter} from 'next/navigation'
+import { useRouter } from "next/navigation";
 
-import Link from 'next/link'
+import Link from "next/link";
 
 import { useCart } from "@/app/context/cartContext";
 
+import { useUser } from "@/app/context/userContext";
+
 export default function App() {
-  const router = useRouter()
+  const router = useRouter();
+  const { user, logout } = useUser();
   const { cart } = useCart();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isCartOpen, setCartOpen] = React.useState(false);
@@ -33,14 +36,15 @@ export default function App() {
     setCartOpen(false);
   };
 
-  const menuItems = [
-    "Home",
-    "Dashboard",
-  ];
+  const menuItems = ["Home", "Dashboard"];
 
   return (
     <>
-      <Navbar position="sticky" className="fixed top-0 bg-black/40" onMenuOpenChange={setIsMenuOpen}>
+      <Navbar
+        position="sticky"
+        className="fixed top-0 bg-black/40"
+        onMenuOpenChange={setIsMenuOpen}
+      >
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -54,17 +58,35 @@ export default function App() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
-            <button onClick={() => {router.push('/')}}  className="text-white font-bold hover:text-secondary" href="#">
+            <button
+              onClick={() => {
+                router.push("/");
+              }}
+              className="text-white font-bold hover:text-secondary"
+              href="#"
+            >
               Home
             </button>
           </NavbarItem>
           <NavbarItem>
-            <button onClick={() => {router.push('/shop')}}  className="text-white font-bold hover:text-secondary" href="#">
+            <button
+              onClick={() => {
+                router.push("/shop");
+              }}
+              className="text-white font-bold hover:text-secondary"
+              href="#"
+            >
               Shop
             </button>
           </NavbarItem>
           <NavbarItem>
-            <button  onClick={() => {router.push('/dashboard')}} className="text-white font-bold hover:text-secondary" href="#">
+            <button
+              onClick={() => {
+                router.push("/dashboard");
+              }}
+              className="text-white font-bold hover:text-secondary"
+              href="#"
+            >
               Admin (TODO)
             </button>
           </NavbarItem>
@@ -75,13 +97,26 @@ export default function App() {
               onClick={openCart}
               className="text-center text-black transition relative"
             >
-              <div className="hover:text-secondary">Cart ({cart?.itemsTotal})</div>
+              <div className="hover:text-secondary">
+                Cart ({cart?.itemsTotal})
+              </div>
             </button>
           </NavbarItem>
           <NavbarItem>
-            <Button className="font-bold" as={Link} color="secondary" href="#" variant="shadow">
-              Sign Up
-            </Button>
+            {user ? (
+              <div>{user.email}</div>
+            ) : (
+              <Button
+                onClick={() => {
+                  router.push("/register");
+                }}
+                className="font-bold"
+                color="secondary"
+                variant="shadow"
+              >
+                Sign Up
+              </Button>
+            )}
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu className=" text-white">

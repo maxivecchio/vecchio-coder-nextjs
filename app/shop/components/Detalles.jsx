@@ -42,11 +42,7 @@ const {addToCart} = useCart()
       <div className="space-y-2">
         <p className="space-x-2">
           <span className="text-gray-800 font-semibold">Category: </span>
-          <span className="text-gray-600">{producto.category}</span>
-        </p>
-        <p className="space-x-2">
-          <span className="text-gray-800 font-semibold">SKU: </span>
-          <span className="text-gray-600">{producto.sku}</span>
+          <span className="text-gray-600">{producto.category.name}</span>
         </p>
       </div>
       <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">

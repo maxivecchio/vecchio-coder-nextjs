@@ -13,8 +13,12 @@ const Page = ({ params }) => {
   const [product, setProduct] = useState(null)
 
   useEffect( () => {
-    getProductBySlug(slug).then((data)  => (setProduct(data)) )
+    getProductBySlug(slug).then((data)  => {
+      console.log(data)
+      setProduct(data)}
+    )
   }, [slug]);
+
 
   return (
     <div className="px-64 pt-20">
