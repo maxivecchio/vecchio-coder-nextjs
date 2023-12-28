@@ -1,12 +1,12 @@
-import React from "react";
+import ProductsList from '@/app/shop/components/ProductsList'
 
-const page = ({ params }) => {
+const ShopPage = ({ params }) => {
   return (
     <div className="mt-16">
-      <div>{params.slug}</div>
+      <ProductsList slug={params.slug} />
     </div>
   );
 };
 
-export default page;
+export default ShopPage;
 

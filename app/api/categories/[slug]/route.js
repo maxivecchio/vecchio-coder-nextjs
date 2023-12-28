@@ -8,19 +8,32 @@ export async function GET(req, {params}) {
         if (!slug) {
             throw new Error("Category slug is required");
         }
-        const q = query(
-            collection(FirestoreDatabase, 'products'),
-            where("category", "==", slug)
+
+        const categoryQuery = query(
+            collection(FirestoreDatabase, 'categories'),
+            where("slug", "==", slug)
         );
-        const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map(doc => {
-            return {
-                id: doc.id,
-                ...doc.data()
-            };
-        });
-        return NextResponse.json(docs);
+        const categorySnapshot = await getDocs(categoryQuery);
+
+        if (categorySnapshot.empty) {
+            throw new Error("Category not found");
+        }
+
+        const categoryId = categorySnapshot.docs[0].id;
+        console.log(categoryId)
+        const productsQuery = query(
+            collection(FirestoreDatabase, 'products'),
+            where("category", "==", categoryId)
+        );
+        const productsSnapshot = await getDocs(productsQuery);
+        const products = productsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+        console.log(products)
+        return NextResponse.json(products);
     } catch (error) {
         return NextResponse.json({ success: false, error: error.message });
     }
 }
+
