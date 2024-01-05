@@ -2,8 +2,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-
+import {generateUniqueSlug } from '@/app/lib/hooks'
 const ProductContext = createContext();
+
+
+import { collection, getDocs, doc, getDoc, query, onSnapshot, updateDoc } from 'firebase/firestore';
+import { FirestoreDatabase } from '@/firebase/config'
+
 
 import { useRouter, notFound } from "next/navigation";
 
@@ -21,24 +26,59 @@ const ProductProvider = ({ children }) => {
   }, []);
 
   const fetchProducts = () => {
-    axios
-      .get("/api/products", {
-        cache: "no-store",
-        next: {
-          revalidate: 3600,
-        },
-      })
-      .then((res) => {
-        setProducts(res.data);
-        setProductsLoading(false);
-      })
-      .catch((err) => {
-        enqueueSnackbar({
-          message: "Error fetching products.",
-          variant: "error",
-        });
+    setProductsLoading(true);
+    const productsQuery = query(collection(FirestoreDatabase, 'products'));
+    onSnapshot(productsQuery, async (snapshot) => {
+      const productsData = await Promise.all(snapshot.docs.map(async (docSnapshot) => {
+        const productData = docSnapshot.data();
+        const categoryRef = doc(FirestoreDatabase, 'categories', productData.category);
+        const categorySnapshot = await getDoc(categoryRef);
+  
+        if (!categorySnapshot.exists()) {
+          return {
+            id: docSnapshot.id,
+            ...productData,
+            category: { id: null, name: 'Unknown', slug: 'unknown' }
+          };
+        }
+  
+        const categoryData = categorySnapshot.data();
+        return {
+          id: docSnapshot.id,
+          ...productData,
+          category: { id: categorySnapshot.id, ...categoryData }
+        };
+      }));
+  
+      setProducts(productsData);
+      setProductsLoading(false);
+    }, (err) => {
+      enqueueSnackbar({
+        message: "Error fetching products.",
+        variant: "error",
       });
+      setProductsLoading(false);
+    });
   };
+  
+
+  const editProductById = async (productId, productData) => {
+    try {
+      const productRef = doc(FirestoreDatabase, 'products', productId);
+      await updateDoc(productRef, productData);
+      enqueueSnackbar({
+        message: "Product updated successfully.",
+        variant: "success",
+      });
+    } catch (error) {
+      console.error('Error updating product: ', error);
+      enqueueSnackbar({
+        message: "Error updating product.",
+        variant: "error",
+      });
+    }
+  };
+
 
   const fetchCategories = () => {
     axios
@@ -83,7 +123,6 @@ const ProductProvider = ({ children }) => {
   const deleteProduct = async (slug) => {
     try {
       await axios.delete(`/api/products/${slug}`);
-      fetchProducts();
     } catch (error) {
       enqueueSnackbar({
         message: "Product not found.",
@@ -93,41 +132,19 @@ const ProductProvider = ({ children }) => {
   };
 
   const uploadProduct = async (formData) => {
-    const { slug } = formData;
-
     try {
-      const slugExists = await checkSlugExists(slug);
-      if (slugExists) {
-        enqueueSnackbar({
-          message: "A product with this slug already exists.",
-          variant: "error",
-        });
-        return;
-      }
-
+      formData["slug"] = await generateUniqueSlug(formData.name)
       await axios.post("/api/products", formData);
       enqueueSnackbar({
         message: "Product Uploaded Successfully",
         variant: "success",
       });
-      fetchProducts();
     } catch (error) {
       enqueueSnackbar({
         message: "Error uploading product.",
         variant: "error",
       });
-    }
-  };
-
-  const checkSlugExists = async (slug) => {
-    try {
-      const response = await axios.get(`/api/products/${slug}`);
-      return response.data.length > 0;
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        return false;
-      }
-      throw error; 
+      console.log(error)
     }
   };
 
@@ -140,6 +157,7 @@ const ProductProvider = ({ children }) => {
     getProductsByCategory,
     deleteProduct,
     uploadProduct,
+    editProductById
   };
 
   return (

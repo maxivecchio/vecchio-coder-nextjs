@@ -1,41 +1,45 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { FirestoreDatabase } from "@/firebase/config";
+import { useUser } from "@/app/context/userContext";
 
 const CartContext = createContext();
-
+const cartRef = collection(FirestoreDatabase, "carts");
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({ items: [], total: 0, itemsTotal: 0 });
   const [fetchingCart, setFetchingCart] = useState(true);
+  const { user } = useUser();
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
+  const fetchCart = async (userId) => {
+    const cartDoc = doc(cartRef, userId);
+    const docSnap = await getDoc(cartDoc);
+    if (docSnap.exists()) {
+      setCart(docSnap.data());
+    } else {
+      await setDoc(cartDoc, cart);
     }
     setFetchingCart(false);
-  }, []);
+  };
 
   useEffect(() => {
-    if (!fetchingCart) {
-      localStorage.setItem("cart", JSON.stringify(cart));
+    if (user) {
+      fetchCart(user.id);
     }
-  }, [cart]);
+  }, [user]);
+
+  const updateFirebaseCart = async (userId) => {
+    if (!fetchingCart) {
+      const cartDoc = doc(cartRef, userId);
+      await setDoc(cartDoc, cart);
+    }
+  };
 
   useEffect(() => {
-    const newTotal = cart.items.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
-    const newItemsTotal = cart.items.reduce(
-      (acc, item) => acc + item.quantity,
-      0
-    );
-    setCart((currentCart) => ({
-      ...currentCart,
-      total: newTotal,
-      itemsTotal: newItemsTotal,
-    }));
-  }, [cart.items]);
+    if (user) {
+      updateFirebaseCart(user.id);
+    }
+  }, [cart, user, fetchingCart]);
 
   const addToCart = (product, quantityToAdd) => {
     setCart((currentCart) => {
@@ -58,6 +62,24 @@ const CartProvider = ({ children }) => {
     });
   };
 
+  useEffect(() => {
+    const updateCartInFirebase = async () => {
+      if (!user || !user.id) return;
+  
+      const cartDocRef = doc(FirestoreDatabase, "carts", user.id);
+  
+      try {
+        await updateDoc(cartDocRef, { items: cart.items });
+      } catch (error) {
+        console.error("Error updating cart in Firebase:", error);
+      }
+    };
+  
+    if (cart && user) {
+      updateCartInFirebase();
+    }
+  }, [cart, user]);
+
   const contextValue = {
     cart,
     setCart,
@@ -73,7 +95,7 @@ const CartProvider = ({ children }) => {
 const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw Error("useCart must be used within a CartProvider");
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };

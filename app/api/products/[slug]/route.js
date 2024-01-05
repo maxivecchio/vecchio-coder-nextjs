@@ -59,9 +59,7 @@ export async function PUT(request, {params}) {
 export async function DELETE(request, {params}) {
     try {
         const productSlug = await getProductSlug(params);
-        console.log(productSlug)
         const doc = await findProductBySlug(productSlug);
-        console.log(doc)
         await deleteDoc(doc.ref);
 
         return NextResponse.json({ success: true, message: "Product deleted successfully" });

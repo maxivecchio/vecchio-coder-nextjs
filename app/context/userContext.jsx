@@ -9,17 +9,12 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log("holitas1");
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
-      console.log("holitas2");
       if (authUser) {
-        console.log("holitas3");
         const userRef = doc(FirestoreDatabase, "users", authUser.uid);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
-          console.log("holitas4");
-          setUser(userSnap.data());
-          console.log(user);
+          setUser({id: userSnap.id, ...userSnap.data()});
         } else {
           console.log("No user data found.");
         }

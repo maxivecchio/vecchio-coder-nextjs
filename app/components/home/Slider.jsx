@@ -14,8 +14,8 @@ const Slider = () => {
         modules={[Pagination, Scrollbar, A11y, Autoplay]}
         pagination={{
             clickable: true,
-            bulletClass: "prismate-bullet",
-            bulletActiveClass: "prismate-bullet-active"
+            bulletClass: "bullet",
+            bulletActiveClass: "bullet-active"
         }}
         className="w-full"
         autoplay={{

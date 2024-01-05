@@ -12,13 +12,14 @@ import {
   Chip,
   Tooltip,
   getKeyValue,
+  Button
 } from "@nextui-org/react";
 import { AiFillEdit, AiFillDelete, AiFillEye } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useProducts } from "@/app/context/productContext";
-import NewProduct from "@/app/dashboard/components/NewProduct";
+import ProductForm from "@/app/dashboard/components/ProductForm";
 import DeleteProduct from "@/app/dashboard/components/DeleteProduct";
 import EditProduct from "@/app/dashboard/components/EditProduct";
 
@@ -29,7 +30,7 @@ const statusColorMap = {
 };
 
 export default function Dashboard() {
-  const { products, uploadProduct, deleteProduct } = useProducts();
+  const { products, deleteProduct } = useProducts();
   
   const router = useRouter();
   const renderCell = React.useCallback((product, columnKey) => {
@@ -75,14 +76,14 @@ export default function Dashboard() {
           >
             {cellValue}
           </Chip>
-        );
+        )
         case "sizes":
           return (
             product.sizes.map(size => (
               <Chip
                 key={size}
                 variant="flat"
-                className="mr-2"
+                className="mr-2 uppercase"
               >
                 {size}
               </Chip>
@@ -92,11 +93,11 @@ export default function Dashboard() {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <EditProduct productSlug={product.slug}>
+            <ProductForm key={product.id} existingProduct={product}>
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <AiFillEdit />
               </span>
-            </EditProduct>
+            </ProductForm>
             <DeleteProduct product={product} deleteProduct={deleteProduct}>
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
                 <AiFillDelete />
@@ -115,6 +116,7 @@ export default function Dashboard() {
     { name: "CATEGORY", uid: "category" },
     { name: "SIZES", uid: "sizes" },
     { name: "PRICE", uid: "price" },
+    { name: "STOCK", uid: "stock" },
     { name: "ACTIONS", uid: "actions" },
   ];
 
@@ -122,7 +124,11 @@ export default function Dashboard() {
     <>
       <div className="max-w-6xl mx-auto">
         <div className="mt-12 mb-4 ml-2">
-          <NewProduct uploadProduct={uploadProduct} />
+          <ProductForm key="new">
+            <button className="rounded bg-gray-200 transition-all hover:bg-gray-300 px-4 py-2">
+            Upload Product
+            </button>
+          </ProductForm>
         </div>
         <Table aria-label="Example table with custom cells">
           <TableHeader columns={columns}>

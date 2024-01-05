@@ -8,8 +8,6 @@ import {
 export default function DeleteProduct({children, product, deleteProduct }) {
   const [isOpen, setIsOpen] = useState(false);
 
-
-
   return (
     <div className="flex flex-col gap-2">
       <Popover
