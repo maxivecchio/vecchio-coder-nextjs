@@ -69,27 +69,22 @@ export default function App() {
             </button>
           </NavbarItem>
           <NavbarItem>
-            <button
-              onClick={() => {
-                router.push("/shop");
-              }}
+            <Link 
               className="text-white font-bold hover:text-secondary"
-              href="#"
-            >
+              href="/shop/all">
               Shop
-            </button>
+              </Link>
           </NavbarItem>
+          {
+            user && user.role === 'admin' && 
           <NavbarItem>
-            <button
-              onClick={() => {
-                router.push("/dashboard");
-              }}
+            <Link 
               className="text-white font-bold hover:text-secondary"
-              href="#"
-            >
-              Admin (TODO)
-            </button>
+              href="/dashboard">
+              Admin
+              </Link>
           </NavbarItem>
+              }
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem className="hidden lg:flex">

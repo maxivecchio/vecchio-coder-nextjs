@@ -4,7 +4,7 @@ export const metadata = {
 };
 
 
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
   return (
 <div className="pt-8">
     {children}

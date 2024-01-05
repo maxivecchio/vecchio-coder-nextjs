@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Table,
   TableHeader,
@@ -22,6 +22,7 @@ import { useProducts } from "@/app/context/productContext";
 import ProductForm from "@/app/dashboard/components/ProductForm";
 import DeleteProduct from "@/app/dashboard/components/DeleteProduct";
 import EditProduct from "@/app/dashboard/components/EditProduct";
+import { useUser } from "@/app/context/userContext";
 
 const statusColorMap = {
   active: "success",
@@ -32,7 +33,17 @@ const statusColorMap = {
 export default function Dashboard() {
   const { products, deleteProduct } = useProducts();
   
+  const {user } = useUser()
+
   const router = useRouter();
+  useEffect(() => {
+    if (!user) {
+router.push('/')
+} else if (user.role !== 'admin') {
+      router.push('/')
+    }
+  }, [user])
+
   const renderCell = React.useCallback((product, columnKey) => {
     let cellValue = product[columnKey];
     if (columnKey === 'category') {
