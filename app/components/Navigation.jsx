@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Cart from "./Cart";
 import {
   Navbar,
@@ -25,15 +25,15 @@ export default function App() {
   const router = useRouter();
   const { user, logout } = useUser();
   const { cart } = useCart();
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [isCartOpen, setCartOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const openCart = () => {
-    setCartOpen(true);
+    setIsCartOpen(true);
   };
 
   const closeCart = () => {
-    setCartOpen(false);
+    setIsCartOpen(false);
   };
 
   const menuItems = ["Home", "Dashboard"];

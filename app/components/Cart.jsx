@@ -7,9 +7,8 @@ import { useCart } from "@/app/context/cartContext";
 
 const CartComponent = ({ isOpen, closeCart }) => {
   const { cart } = useCart();
-  if (!isOpen) {
-    return null;
-  }
+ 
+
 
 
   const [quantity, setQuantity] = useState(1);
@@ -19,6 +18,10 @@ const CartComponent = ({ isOpen, closeCart }) => {
       setQuantity(newQuantity);
     }
   };
+
+  if (!isOpen) {
+    return null;
+  }
   return (
     <>
       <div className="relative font-poppins z-50">
