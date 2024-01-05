@@ -10,7 +10,7 @@ import { collection, getDocs, doc, getDoc, query, onSnapshot, updateDoc } from '
 import { FirestoreDatabase } from '@/firebase/config'
 
 
-import { useRouter, notFound } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);

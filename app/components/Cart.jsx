@@ -6,11 +6,11 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useCart } from "@/app/context/cartContext";
 
 const CartComponent = ({ isOpen, closeCart }) => {
+  const { cart } = useCart();
   if (!isOpen) {
     return null;
   }
 
-  const { cart } = useCart();
 
   const [quantity, setQuantity] = useState(1);
 

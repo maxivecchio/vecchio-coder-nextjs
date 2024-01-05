@@ -3,7 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const notFound = () => {
+const NotFound = () => {
   const router = useRouter();
   return (
     <div className="grid h-screen place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -33,4 +33,4 @@ const notFound = () => {
   );
 };
 
-export default notFound;
+export default NotFound;
