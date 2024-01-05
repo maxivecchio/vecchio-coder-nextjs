@@ -61,7 +61,7 @@ export default function App() {
             <Link 
               className="text-white font-bold hover:text-secondary"
               href="/">
-              Admin
+              Home
               </Link>
           </NavbarItem>
           <NavbarItem>
