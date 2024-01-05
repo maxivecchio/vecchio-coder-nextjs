@@ -94,7 +94,7 @@ const CartComponent = ({ isOpen, closeCart }) => {
               <p>
                 <span className="">or,</span>
                 <Link
-                  href={"/shop"}
+                  href={"/shop/all"}
                   onClick={closeCart}
                   className="pl-1 text-primary hover:underline"
                 >
