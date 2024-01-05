@@ -29,10 +29,6 @@ const Page = ({ params }) => {
             <Img producto={product} />
             <Detalles producto={product} />
           </div>
-
-          {/* <div className="pt-10">
-            <Description producto={product} />
-          </div> */}
         </>
       )}
     </div>
