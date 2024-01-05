@@ -1,8 +1,13 @@
 'use client'
-
-import {useRouter} from 'next/navigation'
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Shop() {
-  const router = useRouter()
-  router.push('/shop/all')
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/shop/all');
+  }, [router]);
+
+  return null;
 }
