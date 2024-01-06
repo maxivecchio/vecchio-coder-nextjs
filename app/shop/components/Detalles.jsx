@@ -93,12 +93,7 @@ const {addToCart} = useCart()
           >
             -
           </div>
-          <input
-            type="number"
-            className="h-8 w-8 text-base text-center border-r border-l border-gray-300"
-            value={quantity}
-            onChange={(e) => handleQuantityChange(parseInt(e.target.value, 10))}
-          />
+                <span className="text-center flex items-center px-4">{quantity}</span>
           <div
             className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
             onClick={() => handleQuantityChange(quantity + 1)}
@@ -109,7 +104,7 @@ const {addToCart} = useCart()
       </div>
 
       <div className="mt-6 flex gap-3 pb-5 pt-5">
-        <button onClick={() => {handleClick(producto, 1)}} className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
+        <button onClick={() => {handleClick(producto, quantity)}} className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
           <i className="fa-solid fa-bag-shopping"></i> Add to cart
         </button>
       </div>

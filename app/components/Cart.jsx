@@ -6,10 +6,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useCart } from "@/app/context/cartContext";
 
 const CartComponent = ({ isOpen, closeCart }) => {
-  const { cart } = useCart();
- 
-
-
+  const { cart, addToCart, removeFromCart } = useCart();
 
   const [quantity, setQuantity] = useState(1);
 
@@ -25,7 +22,7 @@ const CartComponent = ({ isOpen, closeCart }) => {
   return (
     <>
       <div className="relative font-poppins z-50">
-        <div className="fixed inset-0 bg-gray-700 opacity-25"></div>
+        <div className="fixed inset-0 bg-gray-700 opacity-25" onClick={closeCart}></div>
         <div className="fixed top-0 bottom-0 right-0 z-10 w-full max-w-xl bg-white">
           <div className="p-6 bg-white md:pt-12 md:pb-6 md:px-12">
             <div className="text-right">
@@ -45,7 +42,7 @@ const CartComponent = ({ isOpen, closeCart }) => {
                   <div className="w-full px-4 mb-6 md:w-1/3 md:mb-0">
                     <div className="flex w-full h-96 md:h-32 md:w-32">
                       <img
-                        src={item.product.imageSrc}
+                        src={item.product.thumbnail}
                         alt={item.product.name}
                         className="object-cover w-full h-full rounded-md"
                       />
@@ -57,11 +54,40 @@ const CartComponent = ({ isOpen, closeCart }) => {
                         <h2 className="mb-2 text-xl font-bold">
                           {item.product.name}
                         </h2>
-                        <p className="mb-4 text-sm font-medium text-gray-600">
+{/*                         <p className="mb-4 text-sm font-medium text-gray-600">
                           Quantity: {item.quantity}
-                        </p>
-                        <div className="flex mt-10 justify-center items-center space-x-10">
-                          {/* Aquí va tu lógica de botones de incremento/decremento y eliminación */}
+                        </p> */}
+                        <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
+                          <div
+                            className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
+                            onClick={() => {
+                              if (item.quantity > 1) {
+                                addToCart(item.product, -1)
+                              }
+                            }}
+                          >
+                            -
+                          </div>
+                          <span className="text-center flex items-center px-4">
+                          {item.quantity}
+                          </span>
+                          <div
+                            className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
+                            onClick={() => {
+                              addToCart(item.product, 1)
+
+                            }}
+                          >
+                            +
+                          </div>
+                          <div
+                            className="h-8 px-2 text-red-500 text-xs flex items-center justify-center cursor-pointer select-none"
+                            onClick={() => {
+                              removeFromCart(item.product.slug)
+                            }}
+                          >
+                            REMOVE
+                          </div>
                         </div>
                       </div>
                       <div>
@@ -82,12 +108,15 @@ const CartComponent = ({ isOpen, closeCart }) => {
             <p className="mt-4 text-sm text-gray-500 ">
               Shipping calculated at checkout period.
             </p>
-            <div className="flex items-center justify-center mt-6">
+            <div
+                onClick={closeCart}
+            
+            className="flex items-center justify-center mt-6">
               <Link
                 href={"/checkout"}
                 className="w-full text-center py-3 text-lg font-medium bg-primary rounded-md text-gray-50 hover:bg-primary/70"
               >
-                checkout
+                Checkout
               </Link>
             </div>
             <div className="flex items-center justify-center mt-6">

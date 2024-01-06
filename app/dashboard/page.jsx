@@ -133,7 +133,7 @@ router.push('/')
 
   return (
     <>
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="mt-12 mb-4 ml-2">
           <ProductForm key="new">
             <button className="rounded bg-gray-200 transition-all hover:bg-gray-300 px-4 py-2">

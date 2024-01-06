@@ -8,19 +8,14 @@ export default function ProductsList({ slug }) {
   const [products, setProducts] = useState(null);
 
   useEffect(() => {
-    // Define una función asincrónica dentro de useEffect
     const fetchProducts = async () => {
       if (slug === "all") {
-        console.log("Entre en all");
-        console.log(allProducts);
         setProducts(allProducts);
       } else {
-        console.log("No estoy en all"); 
-
         try {
           const productsByCategory = await getProductsByCategory(slug);
           if (!productsByCategory.success) {
-            console.log("a");
+            setProducts([])
           } else {
             setProducts(productsByCategory);
           }
@@ -29,14 +24,12 @@ export default function ProductsList({ slug }) {
         }
       }
     };
-
-    // Llama a la función asincrónica
     fetchProducts();
   }, [slug, allProducts]);
 
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-cols-1 gap-4">
-      {products?.map((product) => (
+      {products && products.length > 0 && products.map((product) => (
         <ProductCard key={product.slug} product={product} />
       ))}
     </div>

@@ -14,12 +14,12 @@ import {
 import { AcmeLogo } from "./AcmeLogo.jsx";
 
 import { useRouter } from "next/navigation";
+import { FaShoppingCart } from "react-icons/fa";
 
 import Link from "next/link";
 
-import { useCart } from "@/app/context/cartContext";
-
 import { useUser } from "@/app/context/userContext";
+import { useCart } from "@/app/context/cartContext";
 
 export default function App() {
   const router = useRouter();
@@ -83,17 +83,17 @@ export default function App() {
               }
         </NavbarContent>
         <NavbarContent justify="end">
-          <NavbarItem className="hidden lg:flex">
+          <NavbarItem className="">
             <button
               onClick={openCart}
-              className="text-center text-black transition relative"
+              className="text-center text-white transition relative"
             >
-              <div className="hover:text-secondary">
-                Cart ({cart?.itemsTotal})
+              <div className="hover:text-secondary flex items-center gap-1">
+              <FaShoppingCart  className="text-xl" /> ({cart?.itemsTotal})
               </div>
             </button>
           </NavbarItem>
-          <NavbarItem>
+          <NavbarItem className="text-white">
             {user ? (
               <div>{user.email}</div>
             ) : (

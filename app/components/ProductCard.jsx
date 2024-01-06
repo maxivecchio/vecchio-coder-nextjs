@@ -13,8 +13,8 @@ const ProductCard = ({ product }) => {
     addToCart(product, 1)
   }
   return (
-    <Link href={`/shop/product/${product.slug}`}>
-      <div className="w-full mx-auto max-w-xs overflow-hidden bg-background rounded-lg shadow-xl">
+    <Link className="mx-auto max-w-xs" href={`/shop/product/${product.slug}`}>
+      <div className="w-full overflow-hidden bg-background rounded-lg shadow-xl">
         <img
           className="object-cover object-center w-full h-72"
           src={

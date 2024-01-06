@@ -12,6 +12,8 @@ const Page = ({ params }) => {
   const { slug } = params;
   const [product, setProduct] = useState(null)
 
+
+
   useEffect( () => {
     getProductBySlug(slug).then((data)  => {
       console.log(data)
