@@ -16,6 +16,7 @@ export default function ProductSlider() {
   const { products } = useProducts();
 
   return (
+    <div className="px-4 md:px-32">
       <Swiper
         spaceBetween={19}
         modules={[Autoplay]}
@@ -39,12 +40,13 @@ export default function ProductSlider() {
             slidesPerView: 4,
           },
         }}
-      >
-        {products?.map((product) => (
-          <SwiperSlide key={product.id}>
-            <ProductCard product={product} />
-          </SwiperSlide>
-        ))}
+        >
+              {products && products.length > 0 && products.map((product) => (
+                <SwiperSlide key={product.slug}>
+        <ProductCard product={product} />
+      </SwiperSlide>
+      ))}
       </Swiper>
+          </div>
   );
 }
