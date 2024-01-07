@@ -12,7 +12,6 @@ import "swiper/css/scrollbar";
 import { useProducts } from "@/app/context/productContext";
 
 export default function ProductSlider() {
-
   const { products } = useProducts();
 
   return (
@@ -40,13 +39,15 @@ export default function ProductSlider() {
             slidesPerView: 4,
           },
         }}
-        >
-              {products && products.length > 0 && products.map((product) => (
-                <SwiperSlide key={product.slug}>
-        <ProductCard product={product} />
-      </SwiperSlide>
-      ))}
+      >
+        {products &&
+          products.length > 0 &&
+          products.map((product) => (
+            <SwiperSlide key={product.slug}>
+              <ProductCard product={product} />
+            </SwiperSlide>
+          ))}
       </Swiper>
-          </div>
+    </div>
   );
 }
