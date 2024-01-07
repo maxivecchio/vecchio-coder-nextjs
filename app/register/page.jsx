@@ -24,7 +24,7 @@ const RegisterPage = () => {
               <RegisterForm />
 
               <p className="mt-6 text-sm text-center">
-                Already've an account?{" "}
+                Already&apos;ve an account?{" "}
                 <Link
                   href="/login"
                   className="text-primary-500 focus:outline-none focus:underline hover:underline"

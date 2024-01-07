@@ -743,7 +743,7 @@ const Checkout = () => {
         ) : (
           <div className="mt-4">
             <h2 className="mb-2 text-lg">
-              You don't have any products in your cart.
+              You don&apos;t have any products in your cart.
             </h2>
             <Link className="py-2 px-4 bg-black/10 hover:bg-black/20 transition-all rounded" href="/shop/all">
               Explore Shop
