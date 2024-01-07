@@ -23,11 +23,11 @@ const Page = ({ params }) => {
 
 
   return (
-    <div className="px-64 pt-20">
+    <div className="px-4 sm:px-32 lg:px-64 sm:pt-20">
       {product && (
         <>
         <BreadCrumb path={"/shop/all"}>Shop / Product / {product.name}</BreadCrumb>
-          <div className="container grid grid-cols-2 gap-6">
+          <div className="container grid sm:grid-cols-2 gap-6">
             <Img producto={product} />
             <Detalles producto={product} />
           </div>

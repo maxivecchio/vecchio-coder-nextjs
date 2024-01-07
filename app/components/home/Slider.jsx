@@ -28,13 +28,13 @@ const Slider = () => {
         slidesPerView={1}
       >
         <SwiperSlide>
-          <div className="w-full h-screen bg-no-repeat bg-center bg-cover bg-[url(https://www.diarioestrategia.cl/images/showid/6101836)]"></div>
+          <div className="w-full h-screen bg-no-repeat bg-center bg-cover bg-[url(/images/promotional-banners.jpg)]"></div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="w-full h-screen bg-no-repeat bg-center bg-cover bg-[url(https://www.diarioestrategia.cl/images/showid/6101836)]"></div>
+          <div className="w-full h-screen bg-no-repeat bg-center bg-cover bg-[url(/images/promotional-banners2.jpg)]"></div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="w-full h-screen bg-no-repeat bg-center bg-cover bg-[url(https://www.diarioestrategia.cl/images/showid/6101836)]"></div>
+          <div className="w-full h-screen bg-no-repeat bg-center bg-cover bg-[url(/images/promotional-banners3.jpg)]"></div>
         </SwiperSlide>
       </Swiper>
     </div>
