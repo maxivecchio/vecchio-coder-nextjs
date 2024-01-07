@@ -40,7 +40,7 @@ export default function App() {
     setIsCartOpen(false);
   };
 
-  const menuItems = ["Home", "Dashboard"];
+  const menuItems = ["Home", "Shop"];
 
   return (
     <>
@@ -55,10 +55,10 @@ export default function App() {
             className="sm:hidden"
           />
           <Link href="/">
-          <NavbarBrand>
-            <AcmeLogo />
-            <p className="font-bold text-white">MVSHOP</p>
-          </NavbarBrand>
+            <NavbarBrand>
+              <AcmeLogo />
+              <p className="font-bold text-white">MVSHOP</p>
+            </NavbarBrand>
           </Link>
         </NavbarContent>
 
@@ -134,7 +134,7 @@ export default function App() {
             )}
           </NavbarItem>
         </NavbarContent>
-        <NavbarMenu className=" text-white">
+        <NavbarMenu className=" text-black">
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
@@ -153,6 +153,14 @@ export default function App() {
               </Link>
             </NavbarMenuItem>
           ))}
+
+          {user && user.role === "admin" && (
+            <NavbarMenuItem>
+              <Link color="danger" className="w-full" href="#" size="lg">
+                Admin
+              </Link>
+            </NavbarMenuItem>
+          )}
         </NavbarMenu>
       </Navbar>
 
