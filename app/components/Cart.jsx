@@ -54,9 +54,6 @@ const CartComponent = ({ isOpen, closeCart }) => {
                         <h2 className="mb-2 text-xl font-bold">
                           {item.product.name}
                         </h2>
-{/*                         <p className="mb-4 text-sm font-medium text-gray-600">
-                          Quantity: {item.quantity}
-                        </p> */}
                         <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
                           <div
                             className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
