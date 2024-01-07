@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing";
-import { useProducts } from "medusa-react";
+import { useProducts } from "@";
 import ProductCard from "@/components/home/ProductCard";
 import Spinner from "@/components/shared/Spinner";
 
@@ -13,9 +12,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 const ProductList = () => {
-  const { products, isLoading } = useProducts({
-    expand: "variants",
-  });
+  const { products, isLoading } = useProducts();
 
   return isLoading ? (
     <Spinner />
@@ -28,8 +25,8 @@ const ProductList = () => {
           loop={true}
           pagination={{
             clickable: true,
-            bulletClass: "jaservice-bullet",
-            bulletActiveClass: "jaservice-bullet-active",
+            bulletClass: "bullet",
+            bulletActiveClass: "bullet-active",
           }}
           autoplay={{
             delay: 2500,

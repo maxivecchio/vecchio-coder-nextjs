@@ -33,6 +33,7 @@ const {addToCart} = useCart()
   };
 
   const handleClick = (product, quantity) => {
+    console.log(product)
     addToCart(product, quantity)
   }
 

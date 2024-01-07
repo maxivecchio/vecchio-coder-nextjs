@@ -85,8 +85,7 @@ const CartProvider = ({ children }) => {
     if (productSnap.exists()) {
       const productData = productSnap.data();
       const availableStock = productData.stock;
-      console.log(productData)
-      if (quantityToAdd > availableStock) {
+        if (quantityToAdd > availableStock) {
         enqueueSnackbar({
           message: `Only ${availableStock} items available in stock`,
           variant: "warning",
@@ -128,7 +127,6 @@ const CartProvider = ({ children }) => {
             (acc, item) => acc + item.quantity * item.product.price,
             0
         );
-  
 
         return { ...currentCart, items: newItems, itemsTotal, total };
     });
@@ -146,6 +144,7 @@ const CartProvider = ({ children }) => {
       });
     }
   };
+
   
   const updateCartInFirebase = async () => {
     if (!user || !user.id || fetchingCart) return;

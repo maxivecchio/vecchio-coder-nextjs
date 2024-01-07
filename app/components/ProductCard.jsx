@@ -31,7 +31,7 @@ const ProductCard = ({ product }) => {
           
           <p className="text-tiny">{product.category.name}</p>
 
-          <p className="mt-3 text-primary-500 font-bold">${product.price} USD.</p>
+          <p className="mt-3 text-primary-500 font-bold">${product.price}</p>
 
           <button onClick={(e) => {onClick(e, product)}} className="mt-3 px-4 py-2 w-full text-white bg-primary-700 hover:bg-primary-800 font-medium rounded-lg text-sm text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
             <IoCartOutline className="text-xl mx-auto font-bold"/>

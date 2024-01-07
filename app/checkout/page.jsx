@@ -122,6 +122,11 @@ const Checkout = () => {
         },
       }));
     }
+    
+    if (shippingCompleted && billingCompleted && paymentCompleted) {
+      createOrderOnFirestore(cart);
+    }
+
   };
 
   const inputVariant = "bordered";
@@ -421,9 +426,6 @@ const Checkout = () => {
     setBillingCompleted(isBillingAddressComplete);
     setPaymentCompleted(isPaymentComplete);
 
-    if (shippingCompleted && billingCompleted && paymentCompleted) {
-      createOrderOnFirestore(cart);
-    }
   }, [cart, formShippingFields]);
 
   console.log(selected);
@@ -657,9 +659,9 @@ const Checkout = () => {
                             <div className="mt-6 w-full col-span-3">
                               <button
                                 type="submit"
-                                className="w-full rounded-md border border-transparent bg-primary px-4 py-3 text-base font-medium text-background shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-50"
+                                className={`w-full rounded-md border border-transparent ${shippingCompleted && billingCompleted && paymentCompleted ? "bg-secondary" : "bg-primary"} px-4 py-3 text-base font-medium text-background shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-50`}
                               >
-                                Pay
+                               {shippingCompleted && billingCompleted && paymentCompleted ? "Make Order" : "Confirm Payment Info"} 
                               </button>
                             </div>
                           </form>

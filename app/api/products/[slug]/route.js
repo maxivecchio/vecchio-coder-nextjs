@@ -23,7 +23,13 @@ export async function GET(request, {params}) {
     try {
         const productSlug = await getProductSlug(params);
         const productDoc = await findProductBySlug(productSlug);
+
+        if (!productDoc.exists()) {
+            throw new Error("Product not found");
+        }
+
         const productData = productDoc.data();
+        productData.id = productDoc.id;
 
         const categoryRef = doc(FirestoreDatabase, 'categories', productData.category);
         const categorySnapshot = await getDoc(categoryRef);
@@ -37,6 +43,7 @@ export async function GET(request, {params}) {
                 slug: categoryData.slug
             };
         }
+
         return NextResponse.json(productData);
     } catch (error) {
         return new NextResponse(error.message, { status: 404 });

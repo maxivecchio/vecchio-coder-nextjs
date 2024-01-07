@@ -78,7 +78,7 @@ const signUp = async (email, password) => {
         });
         enqueueSnackbar({
           message: "Account created! You've been logged in automatically.",
-          variant: "error",
+          variant: "success",
         });
         router.push('/')
     } catch (error) {
