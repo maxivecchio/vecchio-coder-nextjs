@@ -78,36 +78,75 @@ const CartProvider = ({ children }) => {
     }
   }, [cart, user, fetchingCart]);
 
-  const addToCart = (product, quantityToAdd) => {
-      enqueueSnackbar({
-          message: "Cart Updated",
-          variant: "success",
+  const addToCart = async (product, quantityToAdd) => {
+    const productRef = doc(FirestoreDatabase, "products", product.id);
+    const productSnap = await getDoc(productRef);
+  
+    if (productSnap.exists()) {
+      const productData = productSnap.data();
+      const availableStock = productData.stock;
+      console.log(productData)
+      if (quantityToAdd > availableStock) {
+        enqueueSnackbar({
+          message: `Only ${availableStock} items available in stock`,
+          variant: "warning",
         });
-    setCart((currentCart) => {
-      const newItems = currentCart.items.slice();
-      const productIndex = newItems.findIndex(
-        (item) => item.product.slug === product.slug
-      );
-
-      if (productIndex > -1) {
-        newItems[productIndex] = {
-          ...newItems[productIndex],
-          quantity: newItems[productIndex].quantity + quantityToAdd,
-        };
-      } else {
-        newItems.push({ product, quantity: quantityToAdd });
+        return;
       }
 
-      const itemsTotal = newItems.reduce((acc, item) => acc + item.quantity, 0);
-      const total = newItems.reduce(
-        (acc, item) => acc + item.quantity * item.product.price,
-        0
-      );
+      let canUpdate = true
+  
+      setCart(currentCart => {
+        const newItems = currentCart.items.slice();
+        const productIndex = newItems.findIndex(
+            item => item.product.slug === product.slug
+        );
 
-      return { ...currentCart, items: newItems, itemsTotal, total };
+        const existingQuantity = productIndex > -1 ? newItems[productIndex].quantity : 0;
+        const totalQuantityForProduct = existingQuantity + quantityToAdd;
+
+        if (totalQuantityForProduct > availableStock) {
+            enqueueSnackbar({
+                message: `No more stock available!`,
+                variant: "warning",
+            });
+            canUpdate = false
+            return currentCart; 
+        }
+
+        if (productIndex > -1) {
+            newItems[productIndex] = {
+                ...newItems[productIndex],
+                quantity: totalQuantityForProduct,
+            };
+        } else {
+            newItems.push({ product, quantity: quantityToAdd });
+        }
+
+        const itemsTotal = newItems.reduce((acc, item) => acc + item.quantity, 0);
+        const total = newItems.reduce(
+            (acc, item) => acc + item.quantity * item.product.price,
+            0
+        );
+  
+
+        return { ...currentCart, items: newItems, itemsTotal, total };
     });
-  };
+    if (canUpdate) {
 
+      enqueueSnackbar({
+        message: "Cart Updated",
+        variant: "success",
+      });
+    }
+    } else {
+      enqueueSnackbar({
+        message: "Product not found",
+        variant: "error",
+      });
+    }
+  };
+  
   const updateCartInFirebase = async () => {
     if (!user || !user.id || fetchingCart) return;
 

@@ -1,5 +1,5 @@
 "use client";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Cart from "./Cart";
 import {
   Navbar,
@@ -10,6 +10,10 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import { AcmeLogo } from "./AcmeLogo.jsx";
 
@@ -58,29 +62,31 @@ export default function App() {
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
-            <Link 
+            <Link
               className="text-white font-bold hover:text-secondary"
-              href="/">
+              href="/"
+            >
               Home
-              </Link>
+            </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link 
+            <Link
               className="text-white font-bold hover:text-secondary"
-              href="/shop/all">
+              href="/shop/all"
+            >
               Shop
-              </Link>
+            </Link>
           </NavbarItem>
-          {
-            user && user.role === 'admin' && 
-          <NavbarItem>
-            <Link 
-              className="text-white font-bold hover:text-secondary"
-              href="/dashboard">
-              Admin
+          {user && user.role === "admin" && (
+            <NavbarItem>
+              <Link
+                className="text-white font-bold hover:text-secondary"
+                href="/dashboard"
+              >
+                Admin
               </Link>
-          </NavbarItem>
-              }
+            </NavbarItem>
+          )}
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem className="">
@@ -89,13 +95,29 @@ export default function App() {
               className="text-center text-white transition relative"
             >
               <div className="hover:text-secondary flex items-center gap-1">
-              <FaShoppingCart  className="text-xl" /> ({cart?.itemsTotal})
+                <FaShoppingCart className="text-xl" /> ({cart?.itemsTotal})
               </div>
             </button>
           </NavbarItem>
           <NavbarItem className="text-white">
             {user ? (
-              <div>{user.email}</div>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="text-white" variant="bordered">
+                    {user.email}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  <DropdownItem
+                    onClick={logout}
+                    key="delete"
+                    className="text-danger"
+                    color="danger"
+                  >
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             ) : (
               <Button
                 onClick={() => {

@@ -22,7 +22,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdArrowRightAlt } from "react-icons/md";
 
 import { FirestoreDatabase } from "@/firebase/config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
+import { enqueueSnackbar } from "notistack";
 
 import Link from 'next/link'
 
@@ -121,11 +122,8 @@ const Checkout = () => {
         },
       }));
     }
-
-    console.log("cart", cart);
   };
 
-  console.log("cart", cart);
   const inputVariant = "bordered";
 
   const formShippingFields = [
@@ -231,14 +229,46 @@ const Checkout = () => {
   ];
 
   const createOrderOnFirestore = async (cart) => {
-    if (cart.email != null) {
       try {
+        for (const item of cart.items) {
+          const productRef = doc(FirestoreDatabase, "products", item.product.id);
+          const productSnap = await getDoc(productRef);
+    
+          if (productSnap.exists()) {
+            const productData = productSnap.data();
+            if (item.quantity > productData.stock) {
+              enqueueSnackbar({
+                message: `Insufficient stock for ${item.product.name}. Only ${productData.stock} left in stock.`,
+                variant: "error",
+              });
+              return;
+            }
+          } else {
+            enqueueSnackbar({
+              message: `Product not found: ${item.product.name}`,
+              variant: "error",
+            });
+            return;
+          }
+        }
+    
         const { payment, ...cartWithoutPayment } = cart;
 
         const response = await addDoc(collection(FirestoreDatabase, "orders"), {
           ...cartWithoutPayment,
           createdAt: new Date(),
         });
+
+      await Promise.all(cart.items.map(async (item) => {
+        const productRef = doc(FirestoreDatabase, "products", item.product.id);
+        const productSnap = await getDoc(productRef);
+
+        if (productSnap.exists()) {
+          const productData = productSnap.data();
+          const newStock = (productData.stock || 0) - item.quantity;
+          await updateDoc(productRef, { stock: newStock });
+        }
+      }));
 
         console.log("Order created with ID:", response.id);
         localStorage.setItem("lastOrderId", response.id);
@@ -287,7 +317,6 @@ const Checkout = () => {
         console.error("Error adding document: ", error);
         throw error;
       }
-    }
   };
 
   const areAddressesEqual = () => {
@@ -714,8 +743,8 @@ const Checkout = () => {
             <h2 className="mb-2 text-lg">
               You don't have any products in your cart.
             </h2>
-            <Link href="/shop/all">
-              <Button>Explore Shop</Button>
+            <Link className="py-2 px-4 bg-black/10 hover:bg-black/20 transition-all rounded" href="/shop/all">
+              Explore Shop
             </Link>
           </div>
         )}

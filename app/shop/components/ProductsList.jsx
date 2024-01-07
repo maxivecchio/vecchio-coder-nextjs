@@ -14,7 +14,7 @@ export default function ProductsList({ slug }) {
       } else {
         try {
           const productsByCategory = await getProductsByCategory(slug);
-          if (!productsByCategory.success) {
+          if (productsByCategory.success === false) {
             setProducts([])
           } else {
             setProducts(productsByCategory);
